@@ -1,0 +1,71 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class DeadlockExample {
+
+    // Define three locks
+    private static final Lock lock1 = new ReentrantLock();
+    private static final Lock lock2 = new ReentrantLock();
+    private static final Lock lock3 = new ReentrantLock();
+
+    public static void main(String[] args) {
+        // Create and start threads
+        Thread thread1 = new Thread(new Task(lock1, lock2), "Thread1");
+        Thread thread2 = new Thread(new Task(lock2, lock3), "Thread2");
+        Thread thread3 = new Thread(new Task(lock3, lock1), "Thread3");
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+    }
+
+    static class Task implements Runnable {
+        private final Lock firstLock;
+        private final Lock secondLock;
+
+        public Task(Lock firstLock, Lock secondLock) {
+            this.firstLock = firstLock;
+            this.secondLock = secondLock;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                // Try to acquire both locks
+                if (acquireLocks(firstLock, secondLock)) {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + " acquired locks.");
+                        // Perform critical section logic here
+                        Thread.sleep(1000); // Simulate work
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        firstLock.unlock();
+                        secondLock.unlock();
+                        System.out.println(Thread.currentThread().getName() + " released locks.");
+                    }
+                    break;
+                }
+            }
+        }
+
+        private boolean acquireLocks(Lock lock1, Lock lock2) {
+            boolean gotFirstLock = false;
+            boolean gotSecondLock = false;
+            try {
+                gotFirstLock = lock1.tryLock();
+                gotSecondLock = lock2.tryLock();
+            } finally {
+                if (!(gotFirstLock && gotSecondLock)) {
+                    if (gotFirstLock) {
+                        lock1.unlock();
+                    }
+                    if (gotSecondLock) {
+                        lock2.unlock();
+                    }
+                }
+            }
+            return gotFirstLock && gotSecondLock;
+        }
+    }
+}
