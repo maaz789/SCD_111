@@ -1,0 +1,78 @@
+// Immutable Class for Constants
+final class Constants {
+    public static final double PI = 3.14159; // Value of π is constant
+}
+
+// Mutable Class for Calculations
+class CircleAndSphere {
+    private double radius; // Radius is mutable
+
+    // Constructor
+    public CircleAndSphere(double radius) {
+        this.radius = radius;
+    }
+
+    // Getter and Setter for Radius
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    // Methods to Calculate Values
+    public double calculateCircumference() {
+        return 2 * Constants.PI * radius;
+    }
+
+    public double calculateCircleArea() {
+        return Constants.PI * radius * radius;
+    }
+
+    public double calculateSphereVolume() {
+        return (4.0 / 3) * Constants.PI * Math.pow(radius, 3);
+    }
+
+    public double calculateSphereSurfaceArea() {
+        return 4 * Constants.PI * radius * radius;
+    }
+
+    @Override
+    public String toString() {
+        return "Circle and Sphere Calculations {" +
+                "Radius = " + radius +
+                ", Circumference = " + calculateCircumference() +
+                ", Circle Area = " + calculateCircleArea() +
+                ", Sphere Volume = " + calculateSphereVolume() +
+                ", Sphere Surface Area = " + calculateSphereSurfaceArea() +
+                '}';
+    }
+}
+
+// Main Class
+public class CircleAndSphereCalculator {
+    public static void main(String[] args) {
+        // Create an object with an initial radius
+        CircleAndSphere calculations = new CircleAndSphere(5.0);
+
+        System.out.println("Initial Calculations:");
+        System.out.println(calculations);
+
+        // Change the radius and recalculate
+        calculations.setRadius(7.5);
+        System.out.println("\nUpdated Calculations (After Changing Radius):");
+        System.out.println(calculations);
+    }
+}
+Initial Calculations:
+Circle and Sphere Calculations {Radius = 5.0, Circumference = 31.4159, Circle Area = 78.53975,
+Sphere Volume = 523.5983333333332, Sphere Surface Area = 314.159}
+
+Updated Calculations (After Changing Radius):
+Circle and Sphere Calculations {Radius = 7.5, Circumference = 47.12385, 
+Circle Area = 176.7144375, Sphere Volume = 1767.1458333333335, Sphere Surface Area = 706.857}
+
+
+
+
