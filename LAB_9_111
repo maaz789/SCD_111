@@ -1,0 +1,33 @@
+import java.util.Arrays;
+
+public class GenericArrayReverse {
+
+    public static void main(String[] args) {
+        // Integer array
+        Integer[] intArray = {1, 2, 3, 4, 5};
+        // Double array
+        Double[] doubleArray = {1.1, 2.2, 3.3, 4.4};
+        // Character array
+        Character[] charArray = {'A', 'B', 'C', 'D'};
+
+        System.out.println("Original Integer Array: " + Arrays.toString(intArray));
+        System.out.println("Reversed Integer Array:");
+        printArrayInReverse(intArray);
+
+        System.out.println("\nOriginal Double Array: " + Arrays.toString(doubleArray));
+        System.out.println("Reversed Double Array:");
+        printArrayInReverse(doubleArray);
+
+        System.out.println("\nOriginal Character Array: " + Arrays.toString(charArray));
+        System.out.println("Reversed Character Array:");
+        printArrayInReverse(charArray);
+    }
+
+    // Generic function to print an array in reverse order
+    public static <T> void printArrayInReverse(T[] array) {
+        for (int i = array.length - 1; i >= 0; i--) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println(); // Move to the next line
+    }
+}
